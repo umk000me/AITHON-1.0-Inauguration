@@ -970,6 +970,12 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Persistent credit — bottom of gate page */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-[9px] text-white/15 tracking-[0.18em] font-mono whitespace-nowrap pointer-events-none">
+            Designed &amp; Developed by{" "}
+            <span className="text-[#00FF94]/30 font-bold">Shree A. Ugale</span>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -103,6 +103,12 @@ const MobileBlock = () => (
       <div className="mt-10 text-[10px] text-white/20 uppercase tracking-[0.3em] font-mono">
         Dept. of AI &amp; Data Science · AI-THON 1.0
       </div>
+
+      {/* Credit */}
+      <div className="mt-4 text-[9px] text-white/15 tracking-[0.2em] font-mono">
+        Designed &amp; Developed by{" "}
+        <span className="text-brand-primary/40 font-bold">Shree A. Ugale</span>
+      </div>
     </motion.div>
   </div>
 );
@@ -429,6 +435,10 @@ const Footer = () => (
     </div>
     <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">
       <div>© 2026 AI-THON 1.0. ALL RIGHTS RESERVED.</div>
+      <div className="text-[9px] normal-case tracking-[0.15em] font-normal text-white/20">
+        Designed &amp; Developed by{" "}
+        <span className="text-brand-primary/50 font-semibold">Shree A. Ugale</span>
+      </div>
       <div className="flex gap-8">
         <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
         <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
