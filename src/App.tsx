@@ -3,52 +3,7 @@ import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twit
 import { useState, useEffect } from "react";
 import LogoGate, { Slideshow } from "./LogoGate";
 
-const Countdown = () => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
 
-  useEffect(() => {
-    const targetDate = new Date("2026-04-15T09:00:00").getTime();
-
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance < 0) {
-        clearInterval(timer);
-        return;
-      }
-
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000),
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className="flex gap-4 md:gap-8 font-mono">
-      {Object.entries(timeLeft).map(([unit, value]) => (
-        <div key={unit} className="flex flex-col items-center">
-          <div className="text-3xl md:text-5xl font-bold text-brand-primary">
-            {value.toString().padStart(2, '0')}
-          </div>
-          <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 mt-1">
-            {unit}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const Navbar = () => (
   <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-brand-dark/80 backdrop-blur-md border-b border-white/5">
@@ -84,54 +39,34 @@ const Hero = () => (
       transition={{ duration: 0.8 }}
       className="relative z-10 text-center max-w-4xl"
     >
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-8">
-        <Zap className="w-3 h-3" /> The Future is Here
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-8">
+        <Cpu className="w-3 h-3" /> Organised by Department of Artificial Intelligence And Data Science
       </div>
       
       <h1 className="text-6xl md:text-9xl font-black leading-none mb-6">
-        INNOVATE <br />
-        <span className="gradient-text">INTELLIGENTLY</span>
+        AI-THON <br />
+        <span className="gradient-text">1.0</span>
       </h1>
       
-      <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+      <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
         Join the most ambitious AI hackathon of the year. 48 hours of building, 
         learning, and defining the next generation of artificial intelligence.
       </p>
 
-      <div className="flex flex-col items-center gap-10">
-        <Countdown />
-        
-        <div className="flex flex-wrap justify-center gap-4">
-          <button className="group relative px-8 py-4 bg-brand-primary text-brand-dark font-bold rounded-xl overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(0,255,148,0.4)]">
-            <span className="relative z-10 flex items-center gap-2">
-              GET STARTED <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </button>
-          <button className="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
-            VIEW CHALLENGES
-          </button>
+      {/* Beautifully integrated Date & Location */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-white/80 text-sm md:text-base font-mono tracking-widest uppercase mt-4 mx-auto w-fit border border-white/5 bg-white/5 px-6 py-3 rounded-xl shadow-lg">
+        <div className="flex items-center gap-2">
+          <Calendar className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(0,255,148,0.4)]" />
+          <span className="font-bold">MARCH 25, 2026</span>
+        </div>
+        <div className="hidden md:block w-1.5 h-1.5 bg-brand-primary rounded-full shadow-[0_0_10px_rgba(0,255,148,0.6)]" />
+        <div className="flex items-center gap-2">
+          <MapPin className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(0,255,148,0.4)]" />
+          <span className="font-bold border-b border-brand-primary/50 pb-0.5">SIR VISVESVARAYA M. HALL</span>
         </div>
       </div>
-    </motion.div>
 
-    <div className="absolute bottom-10 left-0 w-full px-10 flex flex-col md:flex-row justify-between items-center gap-6 text-white/40 text-xs font-mono tracking-widest uppercase">
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-brand-primary" />
-          APRIL 15-17, 2026
-        </div>
-        <div className="w-1 h-1 bg-white/20 rounded-full" />
-        <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-brand-primary" />
-          SILICON VALLEY, CA
-        </div>
-      </div>
-      <div className="flex gap-6">
-        <a href="#" className="hover:text-brand-primary transition-colors">Twitter</a>
-        <a href="#" className="hover:text-brand-primary transition-colors">Discord</a>
-        <a href="#" className="hover:text-brand-primary transition-colors">GitHub</a>
-      </div>
-    </div>
+    </motion.div>
   </section>
 );
 
@@ -235,16 +170,16 @@ const Schedule = () => (
       </div>
       
       <div className="space-y-2">
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8">Day 1: April 15</div>
+        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8">March 25, 2026</div>
         <ScheduleItem time="09:00 AM" title="Opening Ceremony" description="Grand inauguration and keynote speech by industry leaders." />
         <ScheduleItem time="11:00 AM" title="Hacking Begins" description="Teams start working on their projects. Mentors available." />
         <ScheduleItem time="02:00 PM" title="Workshop: Advanced RAG" description="Deep dive into Retrieval Augmented Generation techniques." />
         
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">Day 2: April 16</div>
+        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">March 26, 2026</div>
         <ScheduleItem time="10:00 AM" title="Mid-Point Check-in" description="Progress review and technical support sessions." />
         <ScheduleItem time="08:00 PM" title="Midnight Snack & Gaming" description="Relax and recharge with some fun activities." />
         
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">Day 3: April 17</div>
+        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">March 27, 2026</div>
         <ScheduleItem time="11:00 AM" title="Hacking Ends" description="Final project submissions and demo preparations." />
         <ScheduleItem time="02:00 PM" title="Project Demos" description="Showcasing the best innovations to the judges." />
         <ScheduleItem time="05:00 PM" title="Award Ceremony" description="Announcing winners and closing remarks." />
@@ -253,16 +188,22 @@ const Schedule = () => (
   </section>
 );
 
-const PersonProfile = ({ name, role, title, image, size = "large" }: any) => (
-  <div className="group flex flex-col items-center text-center">
-    <div className={`rounded-xl overflow-hidden mb-4 bg-brand-dark border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl ${size === 'large' ? 'w-32 h-32 md:w-40 md:h-40' : size === 'medium' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28'}`}>
-      <img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0" referrerPolicy="no-referrer" />
+const PersonProfile = ({ name, role, title, image, size = "large", containObj = false }: any) => {
+  const sizeClasses = containObj
+    ? size === 'large' ? 'h-32 md:h-48 w-auto' : size === 'medium' ? 'h-24 md:h-32 w-auto' : 'h-20 md:h-28 w-auto'
+    : size === 'large' ? 'w-32 h-32 md:w-40 md:h-40' : size === 'medium' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28';
+
+  return (
+    <div className="group flex flex-col items-center text-center">
+      <div className={`rounded-xl overflow-hidden mb-4 bg-white/5 border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl flex items-center justify-center ${sizeClasses}`}>
+        <img src={image} alt={name} className={`${containObj ? 'h-full w-auto object-contain' : 'w-full h-full object-cover'} group-hover:scale-105 transition-transform duration-700`} referrerPolicy="no-referrer" />
+      </div>
+      <h4 className={`${size === 'large' ? 'text-2xl md:text-3xl' : size === 'medium' ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-bold`}>{name}</h4>
+      <p className="text-brand-primary text-[10px] md:text-xs font-mono uppercase tracking-widest mt-1.5">{role}</p>
+      {title && <p className="text-white/40 text-[9px] uppercase tracking-[0.2em] mt-1">{title}</p>}
     </div>
-    <h4 className={`${size === 'large' ? 'text-2xl md:text-3xl' : size === 'medium' ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-bold`}>{name}</h4>
-    <p className="text-brand-primary text-[10px] md:text-xs font-mono uppercase tracking-widest mt-1.5">{role}</p>
-    {title && <p className="text-white/40 text-[9px] uppercase tracking-[0.2em] mt-1">{title}</p>}
-  </div>
-);
+  );
+};
 
 const InaugurationPanel = () => (
   <section id="panel" className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
@@ -281,6 +222,7 @@ const InaugurationPanel = () => (
           title="Amrutvahini College of Engineering"
           image="/images/principal.jpeg"
           size="large"
+          containObj={true}
         />
       </div>
 
