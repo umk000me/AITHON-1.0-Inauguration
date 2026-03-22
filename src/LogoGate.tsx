@@ -426,8 +426,8 @@ interface LogoGateProps {
 }
 
 export default function LogoGate({ onUnlock }: LogoGateProps) {
-  const TILE  = 110;   // px per tile in the grid
-  const TRAY_TILE = 85; // px per tile in the tray
+  const TILE  = 80;   // px per tile in the grid
+  const TRAY_TILE = 65; // px per tile in the tray
 
   // grid: array of piece IDs (or null for empty)
   const [grid, setGrid] = useState<(number | null)[]>(() => Array(TOTAL).fill(null));
@@ -626,7 +626,7 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
     <AnimatePresence>
       {!unlocked && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-start md:justify-center overflow-y-auto overflow-x-hidden md:overflow-hidden pt-12 pb-24 md:p-0"
           style={{ background: "radial-gradient(ellipse at 50% 40%, #0a0a1a 0%, #050505 100%)" }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
@@ -688,7 +688,7 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
           <AnimatePresence>
             {!opening && (
               <motion.div
-                className="relative z-10 flex flex-col items-center w-full px-4 max-w-6xl mx-auto"
+                className="relative z-10 flex flex-col items-center w-full px-4 max-w-6xl mx-auto transform scale-[0.85] sm:scale-95 md:scale-100 origin-top"
                 exit={{ opacity: 0, scale: 0.9, y: -30 }}
                 transition={{ duration: 0.5 }}
               >
@@ -708,7 +708,7 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
                     Solve the Puzzle to Enter
                   </motion.div>
 
-                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-none mb-2"
+                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-none mb-2"
                     style={{
                       background: "linear-gradient(135deg, #ffffff 30%, #00FF94 70%, #7000FF 100%)",
                       WebkitBackgroundClip: "text",

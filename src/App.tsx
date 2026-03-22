@@ -353,8 +353,8 @@ const PresentationView = () => {
   const CurrentSlideComponent = slides[currentSlide];
 
   return (
-    <div className="h-screen w-screen overflow-hidden relative bg-brand-dark selection:bg-brand-primary selection:text-brand-dark">
-      {/* Main Slide Content - No Scroll */}
+    <div className="min-h-screen w-screen md:h-screen overflow-x-hidden md:overflow-hidden relative bg-brand-dark selection:bg-brand-primary selection:text-brand-dark pt-10 pb-24 md:p-0">
+      {/* Main Slide Content - Scrollable on Mobile, Fixed on Desktop */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -362,11 +362,11 @@ const PresentationView = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center overflow-hidden px-4 md:px-12 py-10"
+          className="md:absolute inset-0 z-10 flex flex-col items-center justify-start md:justify-center px-4 md:px-12 w-full"
         >
-          {/* Strict scaling to guarantee it never bleeds off-screen */}
-          <div className="w-full h-full max-h-[100vh] flex justify-center items-center">
-            <div className="transform scale-[0.85] md:scale-95 xl:scale-100 origin-center w-full max-w-7xl flex flex-col items-center">
+          {/* Strict scaling for Desktop / Smooth scrolling for Mobile */}
+          <div className="w-full md:h-full max-h-none md:max-h-[100vh] flex justify-center md:items-center">
+            <div className="transform scale-100 md:scale-95 xl:scale-100 origin-center w-full max-w-7xl flex flex-col items-center">
               <CurrentSlideComponent />
             </div>
           </div>
@@ -396,6 +396,19 @@ export default function App() {
   const [unlocked, setUnlocked] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
+
+  // Auto-Fullscreen on first interaction
+  useEffect(() => {
+    const enterFullscreen = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn("Could not auto-enable fullscreen:", err);
+        });
+      }
+    };
+    document.addEventListener("click", enterFullscreen, { once: true });
+    return () => document.removeEventListener("click", enterFullscreen);
+  }, []);
 
   const handleUnlock = () => {
     // 1. Hide the puzzle gate so it's a solid black screen layout
