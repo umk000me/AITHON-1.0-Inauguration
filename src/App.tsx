@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award, Monitor } from "lucide-react";
 import { useState, useEffect } from "react";
 import LogoGate, { Slideshow } from "./LogoGate";
+import { INAUGURATION_VIDEO_URL } from "./config";
 
 // ─── Mobile Block ─────────────────────────────────────────────────────────────
 function useIsMobile() {
@@ -503,13 +504,18 @@ export default function App() {
   }, []);
 
   const handleUnlock = () => {
-    // 1. Hide the puzzle gate so it's a solid black screen layout
     setUnlocked(true);
     
-    // 2. Keep screen pitch black for exactly 2 seconds, then show video
+    // If no video URL configured, skip straight to presentation
+    if (!INAUGURATION_VIDEO_URL) {
+      setTimeout(() => setVideoEnded(true), 2000);
+      return;
+    }
+
+    // 2-second black screen, then play video
     setTimeout(() => {
       setShowVideo(true);
-    }, 2000); // 2 second pure black delay
+    }, 2000);
   };
 
   return (
@@ -528,15 +534,14 @@ export default function App() {
             className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-none"
           >
             <video
-              src="/videos/inauguration.mp4"
+              src={INAUGURATION_VIDEO_URL}
               autoPlay
-              controls={false} // clean presentation look, hides UI
+              controls={false}
               className="w-full h-full object-contain"
               onEnded={() => setVideoEnded(true)}
               onError={() => {
-                // Failsafe in case video file doesn't exist – immediately fall back to Presentation
-                console.warn("Could not play video at /videos/inauguration.mp4");
-                setVideoEnded(true); 
+                console.warn("Could not play video:", INAUGURATION_VIDEO_URL);
+                setVideoEnded(true);
               }}
             />
           </motion.div>
