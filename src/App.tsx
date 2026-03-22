@@ -253,54 +253,71 @@ const Schedule = () => (
   </section>
 );
 
-const Speaker = ({ name, role, company, image }: any) => (
-  <div className="group">
-    <div className="aspect-square rounded-2xl overflow-hidden mb-6 bg-white/5 border border-white/10 grayscale group-hover:grayscale-0 transition-all duration-500">
-      <img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
+const PersonProfile = ({ name, role, title, image, size = "large" }: any) => (
+  <div className="group flex flex-col items-center text-center">
+    <div className={`rounded-xl overflow-hidden mb-4 bg-brand-dark border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl ${size === 'large' ? 'w-32 h-32 md:w-40 md:h-40' : size === 'medium' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28'}`}>
+      <img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0" referrerPolicy="no-referrer" />
     </div>
-    <h4 className="text-xl font-bold">{name}</h4>
-    <p className="text-brand-primary text-xs font-mono uppercase tracking-widest mt-1">{role}</p>
-    <p className="text-white/40 text-sm mt-2">{company}</p>
+    <h4 className={`${size === 'large' ? 'text-2xl md:text-3xl' : size === 'medium' ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-bold`}>{name}</h4>
+    <p className="text-brand-primary text-[10px] md:text-xs font-mono uppercase tracking-widest mt-1.5">{role}</p>
+    {title && <p className="text-white/40 text-[9px] uppercase tracking-[0.2em] mt-1">{title}</p>}
   </div>
 );
 
-const Speakers = () => (
-  <section id="speakers" className="py-32 px-6 max-w-7xl mx-auto">
-    <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-      <div>
-        <h2 className="text-4xl md:text-6xl font-bold mb-4">Guest Speakers</h2>
-        <p className="text-white/60 max-w-xl">Learn from the pioneers who are shaping the future of artificial intelligence across the globe.</p>
-      </div>
-      <button className="px-6 py-3 border border-white/10 rounded-xl hover:bg-white/5 transition-all text-xs font-bold uppercase tracking-widest">
-        View All Speakers
-      </button>
+const InaugurationPanel = () => (
+  <section id="panel" className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
+    <div className="text-center mb-8 md:mb-12">
+      <h2 className="text-4xl md:text-5xl font-black mb-3 uppercase tracking-tight">Hosting <span className="text-brand-primary">Panel</span></h2>
+      <div className="w-16 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_15px_rgba(0,255,148,0.5)]" />
     </div>
     
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-      <Speaker 
-        name="Dr. Elena Vance" 
-        role="Chief AI Scientist" 
-        company="Neural Dynamics" 
-        image="https://picsum.photos/seed/elena/400/400"
-      />
-      <Speaker 
-        name="Marcus Chen" 
-        role="Founder" 
-        company="Synthetix Labs" 
-        image="https://picsum.photos/seed/marcus/400/400"
-      />
-      <Speaker 
-        name="Sarah Jenkins" 
-        role="Head of Ethics" 
-        company="OpenMind AI" 
-        image="https://picsum.photos/seed/sarah/400/400"
-      />
-      <Speaker 
-        name="Alex Rivera" 
-        role="Lead Engineer" 
-        company="Quantum Systems" 
-        image="https://picsum.photos/seed/alex/400/400"
-      />
+    <div className="flex flex-col items-center gap-6 md:gap-10 w-full">
+      {/* Principal */}
+      <div className="flex flex-col items-center w-full">
+        <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold border border-white/10 px-3 py-1 rounded-full">Inaugurated By</span>
+        <PersonProfile 
+          name="Dr. M.A. Venkatesh" 
+          role="Principal" 
+          title="Amrutvahini College of Engineering"
+          image="/images/principal.jpeg"
+          size="large"
+        />
+      </div>
+
+      <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* HOD & Coordinators Row */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-24 w-full">
+        {/* HOD */}
+        <div className="flex flex-col items-center">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">Head of Department</span>
+          <PersonProfile 
+            name="Dr. A.R. Panhalkar" 
+            role="HOD - Ai&DS" 
+            image="/images/hod.png"
+            size="medium"
+          />
+        </div>
+
+        {/* Coordinators */}
+        <div className="flex flex-col items-center">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">Faculty Coordinators</span>
+          <div className="flex gap-8 md:gap-12">
+            <PersonProfile 
+              name="Prof. S.G. Dighe" 
+              role="Faculty Coordinator" 
+              image="/images/c1.jpg"
+              size="small"
+            />
+            <PersonProfile 
+              name="Prof. R.B. Pandit" 
+              role="Faculty Coordinator" 
+              image="/images/c2.jpg"
+              size="small"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 );
@@ -378,7 +395,7 @@ const Footer = () => (
 
 const PresentationView = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [Hero, About, Schedule, Speakers, Sponsors];
+  const slides = [Hero, About, Schedule, InaugurationPanel, Sponsors];
 
   useEffect(() => {
     const timer = setInterval(() => {
