@@ -6,13 +6,28 @@ import { INAUGURATION_VIDEO_URL } from "./config";
 
 // ─── Mobile Block ─────────────────────────────────────────────────────────────
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  // Detect immediately on first render — no flash/delay
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const byWidth = window.innerWidth < 1024;
+    const byAgent = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+    return byWidth || byAgent;
+  });
+
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
+    const check = () => {
+      const byWidth = window.innerWidth < 1024;
+      const byAgent = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      setIsMobile(byWidth || byAgent);
+    };
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
   return isMobile;
 }
 
