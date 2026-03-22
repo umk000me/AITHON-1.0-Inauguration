@@ -1,7 +1,95 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award } from "lucide-react";
+import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award, Monitor } from "lucide-react";
 import { useState, useEffect } from "react";
 import LogoGate, { Slideshow } from "./LogoGate";
+
+// ─── Mobile Block ─────────────────────────────────────────────────────────────
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
+const MobileBlock = () => (
+  <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center text-center px-8"
+    style={{ background: "radial-gradient(ellipse at 50% 40%, #0a0a1a 0%, #050505 100%)" }}>
+    {/* Animated background glow */}
+    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px] pointer-events-none"
+      style={{ background: "rgba(112,0,255,0.15)" }} />
+    <div className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full blur-[100px] pointer-events-none"
+      style={{ background: "rgba(0,255,148,0.08)" }} />
+
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="relative z-10 flex flex-col items-center"
+    >
+      {/* Icon */}
+      <motion.div
+        className="w-20 h-20 rounded-2xl flex items-center justify-center mb-8"
+        style={{ background: "rgba(0,255,148,0.08)", border: "2px solid rgba(0,255,148,0.25)" }}
+        animate={{ boxShadow: ["0 0 0px rgba(0,255,148,0)", "0 0 30px rgba(0,255,148,0.3)", "0 0 0px rgba(0,255,148,0)"] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
+      >
+        <Monitor className="w-10 h-10" style={{ color: "#00FF94" }} />
+      </motion.div>
+
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-[10px] font-bold uppercase tracking-[0.25em]"
+        style={{ background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.35)", color: "#FF6B6B" }}>
+        Desktop Only
+      </div>
+
+      {/* Heading */}
+      <h1 className="text-3xl sm:text-4xl font-black mb-4 leading-tight"
+        style={{
+          background: "linear-gradient(135deg, #ffffff 30%, #00FF94 70%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}>
+        AI-THON 1.0
+      </h1>
+
+      {/* Message */}
+      <p className="text-white/60 text-base leading-relaxed max-w-sm mb-3">
+        This inauguration experience is optimised for
+        <span className="text-white font-semibold"> desktop and laptop screens</span>.
+      </p>
+      <p className="text-white/40 text-sm leading-relaxed max-w-xs mb-10">
+        Please open this link on a <strong className="text-white/70">Windows / Mac laptop</strong> or a
+        <strong className="text-white/70"> desktop computer</strong> for the best experience.
+      </p>
+
+      {/* Steps */}
+      <div className="w-full max-w-xs space-y-3 text-left">
+        {[
+          { icon: "1", text: "Open a browser on your laptop or PC" },
+          { icon: "2", text: "Visit the link shared by your organiser" },
+          { icon: "3", text: "Enjoy the full AI-THON 1.0 experience!" },
+        ].map(({ icon, text }) => (
+          <div key={icon} className="flex items-center gap-3 text-sm text-white/50">
+            <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+              style={{ background: "rgba(0,255,148,0.15)", color: "#00FF94" }}>
+              {icon}
+            </span>
+            {text}
+          </div>
+        ))}
+      </div>
+
+      {/* Footer badge */}
+      <div className="mt-10 text-[10px] text-white/20 uppercase tracking-[0.3em] font-mono">
+        Dept. of AI &amp; Data Science · AI-THON 1.0
+      </div>
+    </motion.div>
+  </div>
+);
 
 
 
@@ -393,9 +481,13 @@ const PresentationView = () => {
 };
 
 export default function App() {
+  const isMobile = useIsMobile();
   const [unlocked, setUnlocked] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
+
+  // Block mobile users immediately
+  if (isMobile) return <MobileBlock />;
 
   // Auto-Fullscreen on first interaction
   useEffect(() => {
