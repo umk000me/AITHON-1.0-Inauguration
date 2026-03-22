@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin } from "lucide-react";
+import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 import LogoGate, { Slideshow } from "./LogoGate";
 
@@ -15,9 +15,8 @@ const Navbar = () => (
     </div>
     <div className="hidden md:flex gap-8 text-sm font-medium text-white/60">
       <a href="#about" className="hover:text-brand-primary transition-colors">About</a>
-      <a href="#schedule" className="hover:text-brand-primary transition-colors">Schedule</a>
       <a href="#speakers" className="hover:text-brand-primary transition-colors">Speakers</a>
-      <a href="#sponsors" className="hover:text-brand-primary transition-colors">Sponsors</a>
+      <a href="#prizes" className="hover:text-brand-primary transition-colors">Prizes</a>
     </div>
     <button className="px-5 py-2 bg-white text-brand-dark text-xs font-bold uppercase tracking-widest rounded-full hover:bg-brand-primary transition-all active:scale-95">
       Register Now
@@ -26,11 +25,10 @@ const Navbar = () => (
 );
 
 const Hero = () => (
-  <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
+  <section className="relative w-full h-full flex flex-col items-center justify-center px-6 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-secondary/10 blur-[120px] rounded-full" />
-      <div className="scanline" />
     </div>
 
     <motion.div 
@@ -39,8 +37,8 @@ const Hero = () => (
       transition={{ duration: 0.8 }}
       className="relative z-10 text-center max-w-4xl"
     >
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-8">
-        <Cpu className="w-3 h-3" /> Organised by Department of Artificial Intelligence And Data Science
+      <div className="inline-flex items-center gap-2 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-8">
+        <Cpu className="w-4 h-4" /> Organised by Department of Artificial Intelligence And Data Science
       </div>
       
       <h1 className="text-6xl md:text-9xl font-black leading-none mb-6">
@@ -49,7 +47,7 @@ const Hero = () => (
       </h1>
       
       <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-        Join the most ambitious AI hackathon of the year. 48 hours of building, 
+        Join the most ambitious AI hackathon of the year. 4 hours of building, 
         learning, and defining the next generation of artificial intelligence.
       </p>
 
@@ -89,8 +87,8 @@ const FeatureCard = ({ icon: Icon, title, description, index }: any) => (
 );
 
 const About = () => (
-  <section id="about" className="py-32 px-6 max-w-7xl mx-auto">
-    <div className="grid md:grid-cols-2 gap-20 items-center">
+  <section id="about" className="py-12 px-6 max-w-7xl mx-auto w-full">
+    <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
       <div>
         <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
           What is <br />
@@ -103,20 +101,20 @@ const About = () => (
         </p>
         <div className="grid grid-cols-2 gap-8">
           <div>
-            <div className="text-3xl font-bold text-brand-primary mb-1">$50K+</div>
+            <div className="text-3xl font-bold text-brand-primary mb-1">₹5K+</div>
             <div className="text-xs uppercase tracking-widest text-white/40">Prize Pool</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-brand-primary mb-1">48H</div>
+            <div className="text-3xl font-bold text-brand-primary mb-1">4H</div>
             <div className="text-xs uppercase tracking-widest text-white/40">Of Building</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-brand-primary mb-1">500+</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Participants</div>
+            <div className="text-3xl font-bold text-brand-primary mb-1">55+</div>
+            <div className="text-xs uppercase tracking-widest text-white/40">Teams</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-brand-primary mb-1">20+</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Mentors</div>
+            <div className="text-3xl font-bold text-brand-primary mb-1">5+</div>
+            <div className="text-xs uppercase tracking-widest text-white/40">Judges</div>
           </div>
         </div>
       </div>
@@ -150,69 +148,31 @@ const About = () => (
   </section>
 );
 
-const ScheduleItem = ({ time, title, description }: any) => (
-  <div className="flex gap-8 group">
-    <div className="w-24 pt-1 text-xs font-mono text-brand-primary shrink-0">{time}</div>
-    <div className="pb-12 border-l border-white/10 pl-8 relative">
-      <div className="absolute top-1.5 -left-[5px] w-2 h-2 rounded-full bg-brand-primary shadow-[0_0_10px_rgba(0,255,148,0.8)]" />
-      <h4 className="text-lg font-bold mb-2 group-hover:text-brand-primary transition-colors">{title}</h4>
-      <p className="text-white/40 text-sm">{description}</p>
-    </div>
-  </div>
-);
-
-const Schedule = () => (
-  <section id="schedule" className="py-32 px-6 bg-white/[0.02]">
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Event Timeline</h2>
-        <p className="text-white/40 uppercase tracking-[0.3em] text-[10px] font-bold">48 Hours of Pure Innovation</p>
-      </div>
-      
-      <div className="space-y-2">
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8">March 25, 2026</div>
-        <ScheduleItem time="09:00 AM" title="Opening Ceremony" description="Grand inauguration and keynote speech by industry leaders." />
-        <ScheduleItem time="11:00 AM" title="Hacking Begins" description="Teams start working on their projects. Mentors available." />
-        <ScheduleItem time="02:00 PM" title="Workshop: Advanced RAG" description="Deep dive into Retrieval Augmented Generation techniques." />
-        
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">March 26, 2026</div>
-        <ScheduleItem time="10:00 AM" title="Mid-Point Check-in" description="Progress review and technical support sessions." />
-        <ScheduleItem time="08:00 PM" title="Midnight Snack & Gaming" description="Relax and recharge with some fun activities." />
-        
-        <div className="text-xs font-bold text-white/20 uppercase tracking-widest mb-8 mt-12">March 27, 2026</div>
-        <ScheduleItem time="11:00 AM" title="Hacking Ends" description="Final project submissions and demo preparations." />
-        <ScheduleItem time="02:00 PM" title="Project Demos" description="Showcasing the best innovations to the judges." />
-        <ScheduleItem time="05:00 PM" title="Award Ceremony" description="Announcing winners and closing remarks." />
-      </div>
-    </div>
-  </section>
-);
-
 const PersonProfile = ({ name, role, title, image, size = "large", containObj = false }: any) => {
   const sizeClasses = containObj
-    ? size === 'large' ? 'h-32 md:h-48 w-auto' : size === 'medium' ? 'h-24 md:h-32 w-auto' : 'h-20 md:h-28 w-auto'
-    : size === 'large' ? 'w-32 h-32 md:w-40 md:h-40' : size === 'medium' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28';
+    ? size === 'large' ? 'h-24 md:h-32 w-auto' : size === 'medium' ? 'h-20 md:h-24 w-auto' : 'h-16 md:h-20 w-auto'
+    : size === 'large' ? 'w-24 h-24 md:w-32 md:h-32' : size === 'medium' ? 'w-20 h-20 md:w-24 md:h-24' : 'w-16 h-16 md:w-20 md:h-20';
 
   return (
     <div className="group flex flex-col items-center text-center">
-      <div className={`rounded-xl overflow-hidden mb-4 bg-white/5 border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl flex items-center justify-center ${sizeClasses}`}>
+      <div className={`rounded-xl overflow-hidden mb-3 bg-white/5 border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl flex items-center justify-center ${sizeClasses}`}>
         <img src={image} alt={name} className={`${containObj ? 'h-full w-auto object-contain' : 'w-full h-full object-cover'} group-hover:scale-105 transition-transform duration-700`} referrerPolicy="no-referrer" />
       </div>
-      <h4 className={`${size === 'large' ? 'text-2xl md:text-3xl' : size === 'medium' ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-bold`}>{name}</h4>
-      <p className="text-brand-primary text-[10px] md:text-xs font-mono uppercase tracking-widest mt-1.5">{role}</p>
-      {title && <p className="text-white/40 text-[9px] uppercase tracking-[0.2em] mt-1">{title}</p>}
+      <h4 className={`${size === 'large' ? 'text-xl md:text-2xl' : size === 'medium' ? 'text-lg md:text-xl' : 'text-base md:text-lg'} font-bold`}>{name}</h4>
+      <p className="text-brand-primary text-[9px] md:text-[10px] font-mono uppercase tracking-widest mt-1">{role}</p>
+      {title && <p className="text-white/40 text-[8px] uppercase tracking-[0.2em] mt-0.5">{title}</p>}
     </div>
   );
 };
 
 const InaugurationPanel = () => (
-  <section id="panel" className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
-    <div className="text-center mb-8 md:mb-12">
-      <h2 className="text-4xl md:text-5xl font-black mb-3 uppercase tracking-tight">Hosting <span className="text-brand-primary">Panel</span></h2>
-      <div className="w-16 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_15px_rgba(0,255,148,0.5)]" />
+  <section id="panel" className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center py-4">
+    <div className="text-center mb-4 md:mb-6">
+      <h2 className="text-2xl md:text-4xl font-black mb-1 uppercase tracking-tight">Hosting <span className="text-brand-primary">Panel</span></h2>
+      <div className="w-12 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_10px_rgba(0,255,148,0.5)]" />
     </div>
     
-    <div className="flex flex-col items-center gap-6 md:gap-10 w-full">
+    <div className="flex flex-col items-center gap-4 md:gap-6 w-full">
       {/* Principal */}
       <div className="flex flex-col items-center w-full">
         <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold border border-white/10 px-3 py-1 rounded-full">Inaugurated By</span>
@@ -229,10 +189,10 @@ const InaugurationPanel = () => (
       <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       {/* HOD & Coordinators Row */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-24 w-full">
+      <div className="flex flex-col md:flex-row items-baseline justify-center gap-8 md:gap-16 w-full">
         {/* HOD */}
         <div className="flex flex-col items-center">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">Head of Department</span>
+          <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Head of Department</span>
           <PersonProfile 
             name="Dr. A.R. Panhalkar" 
             role="HOD - Ai&DS" 
@@ -243,8 +203,8 @@ const InaugurationPanel = () => (
 
         {/* Coordinators */}
         <div className="flex flex-col items-center">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">Faculty Coordinators</span>
-          <div className="flex gap-8 md:gap-12">
+          <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Faculty Coordinators</span>
+          <div className="flex gap-6 md:gap-10">
             <PersonProfile 
               name="Prof. S.G. Dighe" 
               role="Faculty Coordinator" 
@@ -264,17 +224,56 @@ const InaugurationPanel = () => (
   </section>
 );
 
-const Sponsors = () => (
-  <section id="sponsors" className="py-32 px-6 bg-white/[0.02]">
-    <div className="max-w-7xl mx-auto text-center">
-      <h2 className="text-2xl font-bold mb-16 text-white/40 uppercase tracking-[0.4em]">Supported By</h2>
-      <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all">
-        <div className="text-3xl font-black tracking-tighter">GOOGLE</div>
-        <div className="text-3xl font-black tracking-tighter">MICROSOFT</div>
-        <div className="text-3xl font-black tracking-tighter">NVIDIA</div>
-        <div className="text-3xl font-black tracking-tighter">OPENAI</div>
-        <div className="text-3xl font-black tracking-tighter">ANTHROPIC</div>
+const Prizes = () => (
+  <section id="prizes" className="py-16 px-6 bg-white/[0.02] w-full rounded-3xl">
+    <div className="max-w-5xl mx-auto text-center">
+      <h2 className="text-3xl md:text-5xl font-black mb-12 uppercase tracking-tight">
+        Event <span className="text-brand-primary">Prizes</span>
+      </h2>
+      
+      <div className="grid md:grid-cols-3 gap-6 mb-12">
+        {/* 2nd Prize */}
+        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
+          <Medal className="w-12 h-12 text-gray-300 mb-4 drop-shadow-[0_0_8px_rgba(209,213,219,0.5)]" />
+          <h3 className="text-2xl font-bold mb-2 text-gray-300">2nd Place</h3>
+          <p className="text-white/60 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
+        </div>
+
+        {/* 1st Prize */}
+        <div className="bg-white/5 border border-brand-primary/40 p-8 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,255,148,0.15)] transform md:-translate-y-4 relative overflow-hidden">
+          <div className="absolute inset-0 bg-brand-primary/5 blur-3xl rounded-full" />
+          <Trophy className="w-16 h-16 text-brand-primary mb-4 drop-shadow-[0_0_15px_rgba(0,255,148,0.8)] relative z-10" />
+          <h3 className="text-3xl font-black mb-2 relative z-10">1st Place</h3>
+          <p className="text-brand-primary/80 font-mono text-xs uppercase tracking-wider relative z-10">Cash Prize + Momento<br />+ Certificate</p>
+        </div>
+        
+        {/* 3rd Prize */}
+        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
+          <Medal className="w-12 h-12 text-amber-600 mb-4 drop-shadow-[0_0_8px_rgba(217,119,6,0.5)]" />
+          <h3 className="text-2xl font-bold mb-2 text-amber-600">3rd Place</h3>
+          <p className="text-white/60 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
+        </div>
       </div>
+
+      {/* Best Innovation Award */}
+      <h3 className="text-lg md:text-xl font-bold mb-6 text-white/50 uppercase tracking-[0.3em] inline-block">Best Innovation Award</h3>
+      <div className="flex flex-col md:flex-row justify-center gap-6">
+        <div className="bg-white/5 border border-white/5 px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
+          <Award className="w-6 h-6 text-brand-primary" />
+          <div className="text-left">
+            <div className="font-bold text-white">Award 1</div>
+            <div className="text-white/40 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
+          </div>
+        </div>
+        <div className="bg-white/5 border border-white/5 px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
+          <Award className="w-6 h-6 text-brand-primary" />
+          <div className="text-left">
+            <div className="font-bold text-white">Award 2</div>
+            <div className="text-white/40 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 );
@@ -337,7 +336,12 @@ const Footer = () => (
 
 const PresentationView = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [Hero, About, Schedule, InaugurationPanel, Sponsors];
+  const slides = [
+    Hero,
+    About,
+    InaugurationPanel,
+    Prizes
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -358,11 +362,13 @@ const PresentationView = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center overflow-hidden"
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center overflow-hidden px-4 md:px-12 py-10"
         >
-          {/* We wrap the component to apply a slight scaling if needed, creating a beautiful presentation look */}
-          <div className="w-full flex justify-center items-center scale-90 md:scale-100 origin-center">
-            <CurrentSlideComponent />
+          {/* Strict scaling to guarantee it never bleeds off-screen */}
+          <div className="w-full h-full max-h-[100vh] flex justify-center items-center">
+            <div className="transform scale-[0.85] md:scale-95 xl:scale-100 origin-center w-full max-w-7xl flex flex-col items-center">
+              <CurrentSlideComponent />
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
