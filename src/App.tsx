@@ -376,6 +376,57 @@ const Footer = () => (
   </footer>
 );
 
+const PresentationView = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = [Hero, About, Schedule, Speakers, Sponsors];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 7000); // Auto-advance every 7 seconds
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const CurrentSlideComponent = slides[currentSlide];
+
+  return (
+    <div className="h-screen w-screen overflow-hidden relative bg-brand-dark selection:bg-brand-primary selection:text-brand-dark">
+      {/* Main Slide Content - No Scroll */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentSlide}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center overflow-hidden"
+        >
+          {/* We wrap the component to apply a slight scaling if needed, creating a beautiful presentation look */}
+          <div className="w-full flex justify-center items-center scale-90 md:scale-100 origin-center">
+            <CurrentSlideComponent />
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Presentation Progress Indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/5">
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentSlide(idx)}
+            className={`transition-all duration-500 rounded-full ${
+              currentSlide === idx 
+                ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]' 
+                : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [unlocked, setUnlocked] = useState(false);
   const [showSite, setShowSite] = useState(false);
@@ -391,37 +442,15 @@ export default function App() {
       {/* Full-screen puzzle gate — renders on top until solved */}
       {!unlocked && <LogoGate onUnlock={handleUnlock} />}
 
-      {/* Main site — fades in after puzzle is solved */}
+      {/* Main site — Fades into an infinite looping presentation */}
       <AnimatePresence>
         {showSite && (
           <motion.div
-            className="min-h-screen bg-brand-dark selection:bg-brand-primary selection:text-brand-dark"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            <Navbar />
-            <Hero />
-            {/* Infinite slideshow after unlock */}
-            <section className="py-16 px-6 max-w-5xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.7 }}
-              >
-                <div className="text-center mb-8">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand-primary font-mono">🎉 You Unlocked It!</span>
-                  <h2 className="text-3xl md:text-4xl font-black mt-2 mb-2">AI-THON Gallery</h2>
-                  <p className="text-white/40 text-sm">Auto-playing infinite slideshow of highlights</p>
-                </div>
-                <Slideshow />
-              </motion.div>
-            </section>
-            <About />
-            <Schedule />
-            <Speakers />
-            <Sponsors />
-            <Footer />
+            <PresentationView />
           </motion.div>
         )}
       </AnimatePresence>
