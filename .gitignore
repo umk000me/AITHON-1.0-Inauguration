@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Large video files — too big for GitHub (>100MB), host externally
+public/videos/*.mp4
+public/videos/*.mov
+public/videos/*.avi
+public/videos/*.mkv
