@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { RefreshCw, Lock, Unlock, Volume2, VolumeX } from "lucide-react";
+import { RefreshCw, Lock, Unlock, Volume2, VolumeX, Sparkles } from "lucide-react";
+import confetti from "canvas-confetti";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const GRID = 3;                          // 3×3 grid
@@ -82,16 +83,121 @@ function playUnlockFanfare(ctx: AudioContext) {
 }
 
 function playPickSound(ctx: AudioContext) {
-  playTone(ctx, 880, ctx.currentTime, 0.1, 0.06, "sine");
+  // Sound removed per user request
 }
 
 function playPlaceSound(ctx: AudioContext, correct: boolean) {
-  if (correct) {
-    playTone(ctx, 1046.5, ctx.currentTime, 0.15, 0.1, "sine");
-    playTone(ctx, 1318.5, ctx.currentTime + 0.08, 0.15, 0.08, "sine");
-  } else {
-    playTone(ctx, 440, ctx.currentTime, 0.08, 0.05, "triangle");
+  // Sound removed per user request
+}
+
+function playApplause(ctx: AudioContext) {
+  const duration = 4;
+  const time = ctx.currentTime;
+  
+  // 1. Base Audience Roar (Low rumble)
+  const roarSize = ctx.sampleRate * duration;
+  const roarBuffer = ctx.createBuffer(1, roarSize, ctx.sampleRate);
+  const roarData = roarBuffer.getChannelData(0);
+  for (let i = 0; i < roarSize; i++) {
+    roarData[i] = Math.random() * 2 - 1;
   }
+  const roarNoise = ctx.createBufferSource();
+  roarNoise.buffer = roarBuffer;
+
+  const roarFilter = ctx.createBiquadFilter();
+  roarFilter.type = "lowpass";
+  roarFilter.frequency.value = 600;
+
+  const roarGain = ctx.createGain();
+  roarGain.gain.setValueAtTime(0, time);
+  roarGain.gain.linearRampToValueAtTime(0.2, time + 0.5);
+  roarGain.gain.setValueAtTime(0.2, time + duration - 1.0);
+  roarGain.gain.linearRampToValueAtTime(0, time + duration);
+
+  roarNoise.connect(roarFilter);
+  roarFilter.connect(roarGain);
+  roarGain.connect(ctx.destination);
+  roarNoise.start(time);
+
+  // 2. Individual distinct hand claps for crispness
+  const clapSize = ctx.sampleRate * 0.05; // 50ms per clap
+  const clapBuffer = ctx.createBuffer(1, clapSize, ctx.sampleRate);
+  const clapData = clapBuffer.getChannelData(0);
+  for (let i = 0; i < clapSize; i++) {
+    clapData[i] = Math.random() * 2 - 1; 
+  }
+
+  // Play ~250 separate crisp claps scattered across the 4 seconds
+  for (let i = 0; i < 250; i++) {
+    const offset = Math.random() * (duration - 0.1); 
+    const clapTime = time + offset;
+
+    const clapNode = ctx.createBufferSource();
+    clapNode.buffer = clapBuffer;
+
+    const clapFilter = ctx.createBiquadFilter();
+    clapFilter.type = "bandpass";
+    clapFilter.frequency.value = 1000 + Math.random() * 1500; // 1kHz to 2.5kHz
+    clapFilter.Q.value = 1;
+
+    const clapGain = ctx.createGain();
+    
+    // Envelope for a sharp hand clap: instant attack, fast exponential decay
+    clapGain.gain.setValueAtTime(0, clapTime);
+    clapGain.gain.linearRampToValueAtTime(1.5 + Math.random() * 1.5, clapTime + 0.005);
+    clapGain.gain.exponentialRampToValueAtTime(0.01, clapTime + 0.05);
+
+    clapNode.connect(clapFilter);
+    clapFilter.connect(clapGain);
+    clapGain.connect(ctx.destination);
+    
+    clapNode.start(clapTime);
+  }
+}
+
+function playMassiveExplosion(ctx: AudioContext) {
+  const time = ctx.currentTime;
+  
+  // 1. Huge noise burst
+  const bufferSize = ctx.sampleRate * 2.5;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+  
+  // Lowpass filter makes it sound booming and huge
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(800, time);
+  filter.frequency.exponentialRampToValueAtTime(50, time + 2.0);
+  
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(6.0, time);
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 2.5);
+  
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+  noise.start(time);
+  
+  // 2. Sub-bass thump
+  const osc = ctx.createOscillator();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(120, time);
+  osc.frequency.exponentialRampToValueAtTime(20, time + 1.0);
+  
+  const oscGain = ctx.createGain();
+  osc.connect(oscGain);
+  oscGain.connect(ctx.destination);
+  
+  oscGain.gain.setValueAtTime(4.0, time);
+  oscGain.gain.exponentialRampToValueAtTime(0.01, time + 1.5);
+  
+  osc.start(time);
+  osc.stop(time + 2.5);
 }
 
 // ─── Tile Component ───────────────────────────────────────────────────────────
@@ -447,17 +553,51 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
 
   const handleSolve = () => {
     setSolved(true);
-    if (!muted) {
-      try { playUnlockFanfare(getAudio()); } catch {}
-    }
-    // After a brief celebration delay, start the gate-opening animation
+    
+    // Short anticipation delay, then trigger the big full-screen "Unlocked" sequence
     setTimeout(() => {
-      setOpening(true);
+      setOpening(true); // Triggers "Site Unlocked!" text and pieces flying apart
+
+      if (!muted) {
+        try { 
+          // Play custom user MP3 file for claps
+          const applauseAudio = new Audio("/sounds/claps.mp3");
+          applauseAudio.volume = 1.0;
+          applauseAudio.play().catch(e => console.warn("Make sure claps.mp3 is inside public/sounds/", e));
+        } catch {}
+      }
+
+      // Trigger fireworks with canvas-confetti
+      const duration = 3500;
+      const end = Date.now() + duration;
+
+      const fireworksInterval = setInterval(() => {
+        if (Date.now() > end) {
+          clearInterval(fireworksInterval);
+          return;
+        }
+        confetti({
+          particleCount: 40,
+          angle: 60,
+          spread: 80,
+          origin: { x: 0 },
+          colors: ["#00FF94", "#7000FF", "#FFD700", "#FF6B6B", "#00BFFF"]
+        });
+        confetti({
+          particleCount: 40,
+          angle: 120,
+          spread: 80,
+          origin: { x: 1 },
+          colors: ["#00FF94", "#7000FF", "#FFD700", "#FF6B6B", "#00BFFF"]
+        });
+      }, 250);
+
+      // Wait 4 seconds for the user to enjoy the celebration, then reveal main site
       setTimeout(() => {
         setUnlocked(true);
         onUnlock();
-      }, 1800);
-    }, 2200);
+      }, 4000);
+    }, 700); // 700ms after placing the last piece
   };
 
   const handleReset = () => {
@@ -808,15 +948,15 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
                     <Unlock className="w-20 h-20 text-brand-primary drop-shadow-lg" />
                   </motion.div>
                   <motion.h2
-                    className="text-3xl md:text-5xl font-black uppercase tracking-widest"
-                    style={{ color: "#00FF94", textShadow: "0 0 40px rgba(0,255,148,0.8)" }}
-                    animate={{ opacity: [0.5, 1, 0.5, 1] }}
-                    transition={{ duration: 0.8, repeat: 2 }}
+                    className="text-4xl md:text-6xl font-black uppercase tracking-widest text-center"
+                    style={{ color: "#00FF94", filter: "drop-shadow(0px 0px 20px rgba(0,255,148,0.8))", willChange: "transform" }}
+                    animate={{ scale: [0.95, 1.05, 0.95] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    Unlocked!
+                    Officially Inaugurated!
                   </motion.h2>
-                  <p className="text-white/60 text-sm uppercase tracking-widest font-mono">
-                    Welcome to AI-THON 1.0 ✦
+                  <p className="text-white font-bold text-lg uppercase tracking-widest font-mono flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-brand-primary" /> Welcome to AI-THON 1.0 <Sparkles className="w-5 h-5 text-brand-primary" />
                   </p>
                 </motion.div>
               </motion.div>
