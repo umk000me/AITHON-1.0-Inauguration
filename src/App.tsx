@@ -429,22 +429,53 @@ const PresentationView = () => {
 
 export default function App() {
   const [unlocked, setUnlocked] = useState(false);
-  const [showSite, setShowSite] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
 
   const handleUnlock = () => {
-    // Short delay so the unlock animation completes before revealing site
-    setTimeout(() => setShowSite(true), 600);
-    setTimeout(() => setUnlocked(true), 800);
+    // 1. Hide the puzzle gate so it's a solid black screen layout
+    setUnlocked(true);
+    
+    // 2. Keep screen pitch black for exactly 2 seconds, then show video
+    setTimeout(() => {
+      setShowVideo(true);
+    }, 2000); // 2 second pure black delay
   };
 
   return (
-    <>
+    <div className="bg-black min-h-screen">
       {/* Full-screen puzzle gate — renders on top until solved */}
       {!unlocked && <LogoGate onUnlock={handleUnlock} />}
 
-      {/* Main site — Fades into an infinite looping presentation */}
+      {/* 2-Second Pitch Black + Custom Video Player */}
       <AnimatePresence>
-        {showSite && (
+        {unlocked && showVideo && !videoEnded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-none"
+          >
+            <video
+              src="/videos/inauguration.mp4"
+              autoPlay
+              controls={false} // clean presentation look, hides UI
+              className="w-full h-full object-contain"
+              onEnded={() => setVideoEnded(true)}
+              onError={() => {
+                // Failsafe in case video file doesn't exist – immediately fall back to Presentation
+                console.warn("Could not play video at /videos/inauguration.mp4");
+                setVideoEnded(true); 
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main site — Fades into an infinite looping presentation after video ends */}
+      <AnimatePresence>
+        {videoEnded && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -454,6 +485,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
