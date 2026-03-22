@@ -441,6 +441,7 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
   const [solved, setSolved] = useState(false);
   // gate opening phase
   const [opening, setOpening] = useState(false);
+  const [outro, setOutro] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [muted, setMuted] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
@@ -592,11 +593,16 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
         });
       }, 250);
 
-      // Wait 4 seconds for the user to enjoy the celebration, then reveal main site
+      // Show text for 5 seconds to celebrate, then trigger outro animation
       setTimeout(() => {
-        setUnlocked(true);
-        onUnlock();
-      }, 4000);
+        setOutro(true);
+
+        // Wait for the outro animation to finish beautifully before swapping state
+        setTimeout(() => {
+          setUnlocked(true);
+          onUnlock();
+        }, 1200);
+      }, 5000);
     }, 700); // 700ms after placing the last piece
   };
 
@@ -606,6 +612,7 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
     setSelected(null);
     setSolved(false);
     setOpening(false);
+    setOutro(false);
     setJustCorrect(new Set());
   };
 
@@ -922,12 +929,13 @@ export default function LogoGate({ onUnlock }: LogoGateProps) {
 
           {/* Unlock flash overlay */}
           <AnimatePresence>
-            {opening && (
+            {opening && !outro && (
               <motion.div
                 className="absolute inset-0 z-40 flex flex-col items-center justify-center gap-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                exit={{ opacity: 0, scale: 1.5, filter: "blur(10px)" }}
+                transition={{ duration: 0.8, ease: "easeIn" }}
               >
                 <motion.div
                   className="absolute inset-0"
