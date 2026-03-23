@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award, Monitor } from "lucide-react";
 import { useState, useEffect } from "react";
 import LogoGate from "./LogoGate";
-import { INAUGURATION_VIDEO_URL } from "./config";
+
 
 // ─── Mobile Block ─────────────────────────────────────────────────────────────
 function useIsMobile() {
@@ -494,8 +494,8 @@ const PresentationView = () => {
             key={idx}
             onClick={() => setCurrentSlide(idx)}
             className={`transition-all duration-500 rounded-full ${currentSlide === idx
-                ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]'
-                : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+              ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]'
+              : 'w-2 h-2 bg-white/30 hover:bg-white/60'
               }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
@@ -508,8 +508,6 @@ const PresentationView = () => {
 export default function App() {
   const isMobile = useIsMobile();
   const [unlocked, setUnlocked] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
-  const [videoEnded, setVideoEnded] = useState(false);
 
   // Block mobile users immediately
   if (isMobile) return <MobileBlock />;
@@ -529,52 +527,16 @@ export default function App() {
 
   const handleUnlock = () => {
     setUnlocked(true);
-
-    // If no video URL configured, skip straight to presentation
-    if (!INAUGURATION_VIDEO_URL) {
-      setTimeout(() => setVideoEnded(true), 2000);
-      return;
-    }
-
-    // 2-second black screen, then play video
-    setTimeout(() => {
-      setShowVideo(true);
-    }, 2000);
   };
 
   return (
     <div className="bg-black min-h-screen">
-      {/* Full-screen puzzle gate — renders on top until solved */}
+      {/* Full-screen curtain gate — renders on top until opened */}
       {!unlocked && <LogoGate onUnlock={handleUnlock} />}
 
-      {/* 2-Second Pitch Black + Custom Video Player */}
+      {/* Main site — Fades into an infinite looping presentation after curtains open */}
       <AnimatePresence>
-        {unlocked && showVideo && !videoEnded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-none"
-          >
-            <video
-              src={INAUGURATION_VIDEO_URL}
-              autoPlay
-              controls={false}
-              className="w-full h-full object-contain"
-              onEnded={() => setVideoEnded(true)}
-              onError={() => {
-                console.warn("Could not play video:", INAUGURATION_VIDEO_URL);
-                setVideoEnded(true);
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main site — Fades into an infinite looping presentation after video ends */}
-      <AnimatePresence>
-        {videoEnded && (
+        {unlocked && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

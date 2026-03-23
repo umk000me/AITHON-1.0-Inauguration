@@ -1,43 +1,74 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { Cpu, ChevronRight } from "lucide-react";
 
 export default function LogoGate({ onUnlock }: { onUnlock: () => void }) {
+    const [curtainsOpen, setCurtainsOpen] = useState(false);
+
+    const handleCurtainClick = () => {
+        if (curtainsOpen) return;
+        setCurtainsOpen(true);
+        // After curtain animation completes, unlock
+        setTimeout(() => onUnlock(), 1800);
+    };
+
     return (
-        <div className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center text-center px-6">
+        <div className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+            {/* "Click to Inaugurate" hint text - visible before curtains open */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-                className="relative z-10 flex flex-col items-center max-w-2xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: curtainsOpen ? 0 : 1 }}
+                transition={{ duration: 0.5, delay: curtainsOpen ? 0 : 1 }}
+                className="absolute z-[60] text-white/70 text-lg md:text-2xl font-bold uppercase tracking-[0.3em] pointer-events-none"
             >
-                <motion.div
-                    className="w-24 h-24 mb-10 text-brand-primary"
-                    animate={{ filter: ["drop-shadow(0 0 10px rgba(0,255,148,0.2))", "drop-shadow(0 0 30px rgba(0,255,148,0.6))", "drop-shadow(0 0 10px rgba(0,255,148,0.2))"] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <Cpu className="w-full h-full" />
-                </motion.div>
-
-                <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest text-white leading-tight">
-                    Welcome to <br />
-                    <span className="text-brand-primary drop-shadow-[0_0_15px_rgba(0,255,148,0.3)]">AI-THON 1.0</span>
-                </h1>
-
-                <p className="text-white/50 text-base md:text-lg mb-16 max-w-xl leading-relaxed">
-                    Prepare for the future of artificial intelligence. Click below to officially inaugurate the event.
-                </p>
-
-                <button
-                    onClick={onUnlock}
-                    className="group relative px-10 py-5 bg-brand-primary text-brand-dark rounded-full font-bold uppercase tracking-[0.2em] text-sm overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(0,255,148,0.4)]"
-                >
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                    <span className="relative z-10 flex items-center gap-3">
-                        Officially Inaugurate
-                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                </button>
+                Click the Curtains to Inaugurate
             </motion.div>
+
+            {/* Left Curtain */}
+            <motion.div
+                initial={{ x: 0 }}
+                animate={{ x: curtainsOpen ? "-100%" : 0 }}
+                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                onClick={handleCurtainClick}
+                className="absolute top-0 left-0 w-1/2 h-full z-50 cursor-pointer border-r-[1px] border-[#00ff94]/30"
+                style={{
+                    background: "linear-gradient(to right, #022415, #0a4f32, #022415)",
+                    boxShadow: curtainsOpen ? "none" : "15px 0px 50px rgba(0,0,0,1)"
+                }}
+            >
+                {/* Curtain fold lines */}
+                <div className="flex w-full h-full opacity-60">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="flex-1 h-full bg-gradient-to-r from-black/70 via-transparent to-black/70" />
+                    ))}
+                </div>
+                {/* Curtain bottom drape */}
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/60 to-transparent" />
+            </motion.div>
+
+            {/* Right Curtain */}
+            <motion.div
+                initial={{ x: 0 }}
+                animate={{ x: curtainsOpen ? "100%" : 0 }}
+                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                onClick={handleCurtainClick}
+                className="absolute top-0 right-0 w-1/2 h-full z-50 cursor-pointer border-l-[1px] border-[#00ff94]/30"
+                style={{
+                    background: "linear-gradient(to left, #022415, #0a4f32, #022415)",
+                    boxShadow: curtainsOpen ? "none" : "-15px 0px 50px rgba(0,0,0,1)"
+                }}
+            >
+                {/* Curtain fold lines */}
+                <div className="flex w-full h-full opacity-60">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="flex-1 h-full bg-gradient-to-l from-black/70 via-transparent to-black/70" />
+                    ))}
+                </div>
+                {/* Curtain bottom drape */}
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/60 to-transparent" />
+            </motion.div>
+
+            {/* Curtain rod at top */}
+            <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-[#0a4f32] to-transparent z-[55]" />
 
             {/* Background glow effects */}
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary/10 blur-[150px] rounded-full pointer-events-none" />
