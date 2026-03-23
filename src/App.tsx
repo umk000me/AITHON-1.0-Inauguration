@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award, Monitor } from "lucide-react";
 import { useState, useEffect } from "react";
-import LogoGate, { Slideshow } from "./LogoGate";
+import LogoGate from "./LogoGate";
 import { INAUGURATION_VIDEO_URL } from "./config";
 
 // ─── Mobile Block ─────────────────────────────────────────────────────────────
@@ -141,7 +141,7 @@ const Hero = () => (
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-secondary/10 blur-[120px] rounded-full" />
     </div>
 
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
@@ -150,14 +150,14 @@ const Hero = () => (
       <div className="inline-flex items-center gap-2 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-8">
         <Cpu className="w-4 h-4" /> Organised by Department of Artificial Intelligence And Data Science
       </div>
-      
+
       <h1 className="text-6xl md:text-9xl font-black leading-none mb-6">
         AI-THON <br />
         <span className="gradient-text">1.0</span>
       </h1>
-      
+
       <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-        Join the most ambitious AI hackathon of the year. 4 hours of building, 
+        Join the most ambitious AI hackathon of the year. 4 hours of building,
         learning, and defining the next generation of artificial intelligence.
       </p>
 
@@ -179,7 +179,7 @@ const Hero = () => (
 );
 
 const FeatureCard = ({ icon: Icon, title, description, index }: any) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
@@ -205,8 +205,8 @@ const About = () => (
           <span className="text-brand-primary">Ai-Thon 1.0?</span>
         </h2>
         <p className="text-white/60 text-lg mb-10 leading-relaxed">
-          Ai-Thon 1.0 is a premier hackathon dedicated to pushing the boundaries of 
-          Artificial Intelligence. We bring together developers, designers, and 
+          Ai-Thon 1.0 is a premier hackathon dedicated to pushing the boundaries of
+          Artificial Intelligence. We bring together developers, designers, and
           visionaries to solve real-world problems using cutting-edge AI models.
         </p>
         <div className="grid grid-cols-2 gap-8">
@@ -229,27 +229,27 @@ const About = () => (
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <FeatureCard 
-          icon={Terminal} 
-          title="LLM Track" 
+        <FeatureCard
+          icon={Terminal}
+          title="LLM Track"
           description="Build next-gen applications using Large Language Models."
           index={0}
         />
-        <FeatureCard 
-          icon={Zap} 
-          title="Generative Art" 
+        <FeatureCard
+          icon={Zap}
+          title="Generative Art"
           description="Explore the intersection of AI and creative expression."
           index={1}
         />
-        <FeatureCard 
-          icon={Cpu} 
-          title="Edge AI" 
+        <FeatureCard
+          icon={Cpu}
+          title="Edge AI"
           description="Deploy intelligent models on constrained hardware."
           index={2}
         />
-        <FeatureCard 
-          icon={Users} 
-          title="Social Impact" 
+        <FeatureCard
+          icon={Users}
+          title="Social Impact"
           description="Solve critical societal challenges with AI solutions."
           index={3}
         />
@@ -281,14 +281,14 @@ const InaugurationPanel = () => (
       <h2 className="text-2xl md:text-4xl font-black mb-1 uppercase tracking-tight">Hosting <span className="text-brand-primary">Panel</span></h2>
       <div className="w-12 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_10px_rgba(0,255,148,0.5)]" />
     </div>
-    
+
     <div className="flex flex-col items-center gap-4 md:gap-6 w-full">
       {/* Principal */}
       <div className="flex flex-col items-center w-full">
         <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold border border-white/10 px-3 py-1 rounded-full">Inaugurated By</span>
-        <PersonProfile 
-          name="Dr. M.A. Venkatesh" 
-          role="Principal" 
+        <PersonProfile
+          name="Dr. M.A. Venkatesh"
+          role="Principal"
           title="Amrutvahini College of Engineering"
           image="/images/principal.jpeg"
           size="large"
@@ -303,9 +303,9 @@ const InaugurationPanel = () => (
         {/* HOD */}
         <div className="flex flex-col items-center">
           <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Head of Department</span>
-          <PersonProfile 
-            name="Dr. A.R. Panhalkar" 
-            role="HOD - Ai&DS" 
+          <PersonProfile
+            name="Dr. A.R. Panhalkar"
+            role="HOD - Ai&DS"
             image="/images/hod.png"
             size="medium"
           />
@@ -315,15 +315,15 @@ const InaugurationPanel = () => (
         <div className="flex flex-col items-center">
           <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Faculty Coordinators</span>
           <div className="flex gap-6 md:gap-10">
-            <PersonProfile 
-              name="Prof. S.G. Dighe" 
-              role="Faculty Coordinator" 
+            <PersonProfile
+              name="Prof. S.G. Dighe"
+              role="Faculty Coordinator"
               image="/images/c1.jpg"
               size="small"
             />
-            <PersonProfile 
-              name="Prof. R.B. Pandit" 
-              role="Faculty Coordinator" 
+            <PersonProfile
+              name="Prof. R.B. Pandit"
+              role="Faculty Coordinator"
               image="/images/c2.jpg"
               size="small"
             />
@@ -340,7 +340,7 @@ const Prizes = () => (
       <h2 className="text-3xl md:text-5xl font-black mb-12 uppercase tracking-tight">
         Event <span className="text-brand-primary">Prizes</span>
       </h2>
-      
+
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         {/* 2nd Prize */}
         <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
@@ -356,7 +356,7 @@ const Prizes = () => (
           <h3 className="text-3xl font-black mb-2 relative z-10">1st Place</h3>
           <p className="text-brand-primary/80 font-mono text-xs uppercase tracking-wider relative z-10">Cash Prize + Momento<br />+ Certificate</p>
         </div>
-        
+
         {/* 3rd Prize */}
         <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
           <Medal className="w-12 h-12 text-amber-600 mb-4 drop-shadow-[0_0_8px_rgba(217,119,6,0.5)]" />
@@ -413,7 +413,7 @@ const Footer = () => (
           </a>
         </div>
       </div>
-      
+
       <div>
         <h5 className="font-bold mb-6 uppercase tracking-widest text-xs">Navigation</h5>
         <ul className="space-y-4 text-sm text-white/40">
@@ -423,7 +423,7 @@ const Footer = () => (
           <li><a href="#speakers" className="hover:text-brand-primary transition-colors">Speakers</a></li>
         </ul>
       </div>
-      
+
       <div>
         <h5 className="font-bold mb-6 uppercase tracking-widest text-xs">Contact</h5>
         <ul className="space-y-4 text-sm text-white/40 font-mono">
@@ -493,11 +493,10 @@ const PresentationView = () => {
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}
-            className={`transition-all duration-500 rounded-full ${
-              currentSlide === idx 
-                ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]' 
+            className={`transition-all duration-500 rounded-full ${currentSlide === idx
+                ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]'
                 : 'w-2 h-2 bg-white/30 hover:bg-white/60'
-            }`}
+              }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
@@ -530,7 +529,7 @@ export default function App() {
 
   const handleUnlock = () => {
     setUnlocked(true);
-    
+
     // If no video URL configured, skip straight to presentation
     if (!INAUGURATION_VIDEO_URL) {
       setTimeout(() => setVideoEnded(true), 2000);
