@@ -548,7 +548,7 @@ export default function App() {
           onEnded={() => setVideoEnded(true)}
           className="w-full h-full object-cover"
         >
-          <source src="https://res.cloudinary.com/dzazecta2/video/upload/v1774336193/Video_Project_1_2_1_oilvda.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dzazecta2/video/upload/v1774377107/Video_Project_2_2_wlvpwd.mp4" type="video/mp4" />
         </video>
         {!videoStarted && (
           <div

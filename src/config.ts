@@ -9,4 +9,4 @@
 //   4. Paste it below
 //
 export const INAUGURATION_VIDEO_URL =
-  "https://res.cloudinary.com/dzazecta2/video/upload/v1774180887/inauguration_1_qaaou0.mp4"; // 👈 paste your video URL here, e.g. "https://res.cloudinary.com/..."
+  "https://res.cloudinary.com/dzazecta2/video/upload/v1774374645/Video_Project_2_1_ih2ypn.mp4"; // 👈 paste your video URL here, e.g. "https://res.cloudinary.com/..."
