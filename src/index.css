@@ -6,14 +6,14 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand-primary: #00FF94;
-  --color-brand-secondary: #7000FF;
-  --color-brand-dark: #050505;
+  --color-brand-primary: #2563EB;
+  --color-brand-secondary: #7C3AED;
+  --color-brand-dark: #0F172A;
 }
 
 @layer base {
   body {
-    @apply bg-brand-dark text-white font-sans antialiased selection:bg-brand-primary selection:text-brand-dark;
+    @apply bg-white text-slate-900 font-sans antialiased selection:bg-brand-primary/20 selection:text-brand-primary;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -23,11 +23,11 @@
 
 @layer utilities {
   .text-glow {
-    text-shadow: 0 0 20px rgba(0, 255, 148, 0.4);
+    text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
   }
 
   .bg-glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    @apply bg-white/80 backdrop-blur-xl border border-slate-200 shadow-sm;
   }
 
   .gradient-text {

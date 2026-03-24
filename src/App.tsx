@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Cpu, Calendar, MapPin, Users, Zap, Terminal, ChevronRight, Github, Twitter, Linkedin, Trophy, Medal, Award, Monitor } from "lucide-react";
-import { useState, useEffect } from "react";
-import LogoGate from "./LogoGate";
+import React, { useState, useEffect } from "react";
 
 
 // ─── Mobile Block ─────────────────────────────────────────────────────────────
@@ -137,8 +136,8 @@ const Navbar = () => (
 const Hero = () => (
   <section className="relative w-full h-full flex flex-col items-center justify-center px-6 overflow-hidden">
     <div className="absolute inset-0 z-0">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-secondary/10 blur-[120px] rounded-full" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary/5 blur-[120px] rounded-full" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-secondary/5 blur-[120px] rounded-full" />
     </div>
 
     <motion.div
@@ -151,26 +150,26 @@ const Hero = () => (
         <Cpu className="w-4 h-4" /> Organised by Department of Artificial Intelligence And Data Science
       </div>
 
-      <h1 className="text-6xl md:text-9xl font-black leading-none mb-6">
+      <h1 className="text-6xl md:text-9xl font-black leading-none mb-6 text-slate-900">
         AI-THON <br />
         <span className="gradient-text">1.0</span>
       </h1>
 
-      <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+      <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
         Join the most ambitious AI hackathon of the year. 4 hours of building,
         learning, and defining the next generation of artificial intelligence.
       </p>
 
       {/* Beautifully integrated Date & Location */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-white/80 text-sm md:text-base font-mono tracking-widest uppercase mt-4 mx-auto w-fit border border-white/5 bg-white/5 px-6 py-3 rounded-xl shadow-lg">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-slate-700 text-sm md:text-base font-mono tracking-widest uppercase mt-4 mx-auto w-fit border border-slate-200 bg-white px-6 py-3 rounded-xl shadow-md">
         <div className="flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(0,255,148,0.4)]" />
+          <Calendar className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(37,99,235,0.3)]" />
           <span className="font-bold">MARCH 25, 2026</span>
         </div>
-        <div className="hidden md:block w-1.5 h-1.5 bg-brand-primary rounded-full shadow-[0_0_10px_rgba(0,255,148,0.6)]" />
+        <div className="hidden md:block w-1.5 h-1.5 bg-brand-primary rounded-full shadow-[0_0_10px_rgba(37,99,235,0.5)]" />
         <div className="flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(0,255,148,0.4)]" />
-          <span className="font-bold border-b border-brand-primary/50 pb-0.5">SIR VISVESVARAYA M. HALL</span>
+          <MapPin className="w-5 h-5 text-brand-primary drop-shadow-[0_0_8px_rgba(37,99,235,0.3)]" />
+          <span className="font-bold border-b border-brand-primary/50 pb-0.5">J.R.D. Tata HALL</span>
         </div>
       </div>
 
@@ -189,8 +188,8 @@ const FeatureCard = ({ icon: Icon, title, description, index }: any) => (
     <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
       <Icon className="text-brand-primary w-6 h-6" />
     </div>
-    <h3 className="text-xl font-bold mb-3">{title}</h3>
-    <p className="text-white/50 text-sm leading-relaxed">
+    <h3 className="text-xl font-bold mb-3 text-slate-900">{title}</h3>
+    <p className="text-slate-500 text-sm leading-relaxed">
       {description}
     </p>
   </motion.div>
@@ -200,31 +199,31 @@ const About = () => (
   <section id="about" className="py-12 px-6 max-w-7xl mx-auto w-full">
     <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
       <div>
-        <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+        <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight text-slate-900">
           What is <br />
-          <span className="text-brand-primary">Ai-Thon 1.0?</span>
+          <span className="text-brand-primary">AI-Thon 1.0?</span>
         </h2>
-        <p className="text-white/60 text-lg mb-10 leading-relaxed">
-          Ai-Thon 1.0 is a premier hackathon dedicated to pushing the boundaries of
+        <p className="text-slate-500 text-lg mb-10 leading-relaxed">
+          AI-Thon 1.0 is a premier hackathon dedicated to pushing the boundaries of
           Artificial Intelligence. We bring together developers, designers, and
           visionaries to solve real-world problems using cutting-edge AI models.
         </p>
         <div className="grid grid-cols-2 gap-8">
           <div>
             <div className="text-3xl font-bold text-brand-primary mb-1">₹5K+</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Prize Pool</div>
+            <div className="text-xs uppercase tracking-widest text-slate-400">Prize Pool</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-brand-primary mb-1">4H</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Of Building</div>
+            <div className="text-xs uppercase tracking-widest text-slate-400">Of Building</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-brand-primary mb-1">55+</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Teams</div>
+            <div className="text-xs uppercase tracking-widest text-slate-400">Teams</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-brand-primary mb-1">5+</div>
-            <div className="text-xs uppercase tracking-widest text-white/40">Judges</div>
+            <div className="text-xs uppercase tracking-widest text-slate-400">Judges</div>
           </div>
         </div>
       </div>
@@ -258,19 +257,21 @@ const About = () => (
   </section>
 );
 
-const PersonProfile = ({ name, role, title, image, size = "large", containObj = false }: any) => {
-  const sizeClasses = containObj
-    ? size === 'large' ? 'h-24 md:h-32 w-auto' : size === 'medium' ? 'h-20 md:h-24 w-auto' : 'h-16 md:h-20 w-auto'
-    : size === 'large' ? 'w-24 h-24 md:w-32 md:h-32' : size === 'medium' ? 'w-20 h-20 md:w-24 md:h-24' : 'w-16 h-16 md:w-20 md:h-20';
-
+const PersonProfile = ({ name, role, title, image, size = 'default' }: any) => {
+  const sizeClass = size === 'small'
+    ? 'w-24 h-24 md:w-32 md:h-32'
+    : 'w-36 h-36 md:w-44 md:h-44';
+  const textClass = size === 'small'
+    ? 'text-base md:text-lg'
+    : 'text-lg md:text-xl';
   return (
     <div className="group flex flex-col items-center text-center">
-      <div className={`rounded-xl overflow-hidden mb-3 bg-white/5 border-2 border-white/5 group-hover:border-brand-primary transition-all duration-500 shadow-2xl flex items-center justify-center ${sizeClasses}`}>
-        <img src={image} alt={name} className={`${containObj ? 'h-full w-auto object-contain' : 'w-full h-full object-cover'} group-hover:scale-105 transition-transform duration-700`} referrerPolicy="no-referrer" />
+      <div className={`${sizeClass} rounded-full overflow-hidden mb-3 border-[3px] border-slate-200 group-hover:border-brand-primary transition-all duration-500 shadow-lg bg-slate-50 flex-shrink-0`}>
+        <img src={image} alt={name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
       </div>
-      <h4 className={`${size === 'large' ? 'text-xl md:text-2xl' : size === 'medium' ? 'text-lg md:text-xl' : 'text-base md:text-lg'} font-bold`}>{name}</h4>
+      <h4 className={`${textClass} font-bold text-slate-900`}>{name}</h4>
       <p className="text-brand-primary text-[9px] md:text-[10px] font-mono uppercase tracking-widest mt-1">{role}</p>
-      {title && <p className="text-white/40 text-[8px] uppercase tracking-[0.2em] mt-0.5">{title}</p>}
+      {title && <p className="text-slate-400 text-[8px] uppercase tracking-[0.2em] mt-0.5">{title}</p>}
     </div>
   );
 };
@@ -278,56 +279,54 @@ const PersonProfile = ({ name, role, title, image, size = "large", containObj = 
 const InaugurationPanel = () => (
   <section id="panel" className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center py-4">
     <div className="text-center mb-4 md:mb-6">
-      <h2 className="text-2xl md:text-4xl font-black mb-1 uppercase tracking-tight">Hosting <span className="text-brand-primary">Panel</span></h2>
-      <div className="w-12 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_10px_rgba(0,255,148,0.5)]" />
+      <h2 className="text-2xl md:text-4xl font-black mb-1 uppercase tracking-tight text-slate-900">Hosting <span className="text-brand-primary">Panel</span></h2>
+      <div className="w-12 h-1 bg-brand-primary mx-auto rounded-full shadow-[0_0_10px_rgba(37,99,235,0.4)]" />
     </div>
 
     <div className="flex flex-col items-center gap-4 md:gap-6 w-full">
       {/* Principal */}
       <div className="flex flex-col items-center w-full">
-        <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold border border-white/10 px-3 py-1 rounded-full">Inaugurated By</span>
+        <span className="text-[9px] uppercase tracking-[0.3em] text-slate-400 mb-3 font-bold border border-slate-200 px-3 py-1 rounded-full">Inaugurated By</span>
         <PersonProfile
           name="Dr. M.A. Venkatesh"
           role="Principal"
           title="Amrutvahini College of Engineering"
           image="/images/principal.jpeg"
-          size="large"
           containObj={true}
         />
       </div>
 
-      <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
       {/* HOD & Coordinators Row */}
-      <div className="flex flex-col md:flex-row items-baseline justify-center gap-8 md:gap-16 w-full">
+      <div className="flex flex-row items-start justify-center gap-10 md:gap-16 w-full">
         {/* HOD */}
         <div className="flex flex-col items-center">
-          <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Head of Department</span>
+          <span className="text-[8px] uppercase tracking-[0.3em] text-slate-400 mb-2 font-bold">Head of Department</span>
           <PersonProfile
             name="Dr. A.R. Panhalkar"
             role="HOD - Ai&DS"
             image="/images/hod.png"
-            size="medium"
           />
         </div>
 
         {/* Coordinators */}
         <div className="flex flex-col items-center">
-          <span className="text-[8px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Faculty Coordinators</span>
-          <div className="flex gap-6 md:gap-10">
-            <PersonProfile
-              name="Prof. S.G. Dighe"
-              role="Faculty Coordinator"
-              image="/images/c1.jpg"
-              size="small"
-            />
-            <PersonProfile
-              name="Prof. R.B. Pandit"
-              role="Faculty Coordinator"
-              image="/images/c2.jpg"
-              size="small"
-            />
-          </div>
+          <span className="text-[8px] uppercase tracking-[0.3em] text-slate-400 mb-2 font-bold">Faculty Coordinator</span>
+          <PersonProfile
+            name="Prof. S.G. Dighe"
+            role="Faculty Coordinator"
+            image="/images/c1.jpg"
+          />
+        </div>
+
+        <div className="flex flex-col items-center">
+          <span className="text-[8px] uppercase tracking-[0.3em] text-slate-400 mb-2 font-bold">Faculty Coordinator</span>
+          <PersonProfile
+            name="Prof. R.B. Pandit"
+            role="Faculty Coordinator"
+            image="/images/c2.jpg"
+          />
         </div>
       </div>
     </div>
@@ -335,51 +334,51 @@ const InaugurationPanel = () => (
 );
 
 const Prizes = () => (
-  <section id="prizes" className="py-16 px-6 bg-white/[0.02] w-full rounded-3xl">
+  <section id="prizes" className="py-16 px-6 bg-slate-50/80 w-full rounded-3xl">
     <div className="max-w-5xl mx-auto text-center">
-      <h2 className="text-3xl md:text-5xl font-black mb-12 uppercase tracking-tight">
+      <h2 className="text-3xl md:text-5xl font-black mb-12 uppercase tracking-tight text-slate-900">
         Event <span className="text-brand-primary">Prizes</span>
       </h2>
 
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         {/* 2nd Prize */}
-        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
-          <Medal className="w-12 h-12 text-gray-300 mb-4 drop-shadow-[0_0_8px_rgba(209,213,219,0.5)]" />
-          <h3 className="text-2xl font-bold mb-2 text-gray-300">2nd Place</h3>
-          <p className="text-white/60 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
+        <div className="bg-white border border-red-200 shadow-sm p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
+          <Medal className="w-12 h-12 text-red-500 mb-4 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
+          <h3 className="text-2xl font-bold mb-2 text-red-500">2nd Place</h3>
+          <p className="text-slate-500 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
         </div>
 
         {/* 1st Prize */}
-        <div className="bg-white/5 border border-brand-primary/40 p-8 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,255,148,0.15)] transform md:-translate-y-4 relative overflow-hidden">
-          <div className="absolute inset-0 bg-brand-primary/5 blur-3xl rounded-full" />
-          <Trophy className="w-16 h-16 text-brand-primary mb-4 drop-shadow-[0_0_15px_rgba(0,255,148,0.8)] relative z-10" />
-          <h3 className="text-3xl font-black mb-2 relative z-10">1st Place</h3>
-          <p className="text-brand-primary/80 font-mono text-xs uppercase tracking-wider relative z-10">Cash Prize + Momento<br />+ Certificate</p>
+        <div className="bg-white border-2 border-yellow-400/50 p-8 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_30px_rgba(234,179,8,0.15)] transform md:-translate-y-4 relative overflow-hidden">
+          <div className="absolute inset-0 bg-yellow-400/5 blur-3xl rounded-full" />
+          <Trophy className="w-16 h-16 text-yellow-500 mb-4 drop-shadow-[0_0_15px_rgba(234,179,8,0.6)] relative z-10" />
+          <h3 className="text-3xl font-black mb-2 relative z-10 text-yellow-600">1st Place</h3>
+          <p className="text-yellow-600/80 font-mono text-xs uppercase tracking-wider relative z-10">Cash Prize + Momento<br />+ Certificate</p>
         </div>
 
         {/* 3rd Prize */}
-        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
-          <Medal className="w-12 h-12 text-amber-600 mb-4 drop-shadow-[0_0_8px_rgba(217,119,6,0.5)]" />
-          <h3 className="text-2xl font-bold mb-2 text-amber-600">3rd Place</h3>
-          <p className="text-white/60 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
+        <div className="bg-white border border-orange-200 shadow-sm p-6 rounded-2xl flex flex-col items-center justify-center transform md:translate-y-4">
+          <Medal className="w-12 h-12 text-orange-700 mb-4 drop-shadow-[0_0_8px_rgba(194,120,62,0.5)]" />
+          <h3 className="text-2xl font-bold mb-2 text-orange-700">3rd Place</h3>
+          <p className="text-slate-500 font-mono text-xs uppercase tracking-wider">Cash Prize + Momento + Certificate</p>
         </div>
       </div>
 
       {/* Best Innovation Award */}
-      <h3 className="text-lg md:text-xl font-bold mb-6 text-white/50 uppercase tracking-[0.3em] inline-block">Best Innovation Award</h3>
+      <h3 className="text-lg md:text-xl font-bold mb-6 text-slate-400 uppercase tracking-[0.3em] inline-block">Best Innovation Award</h3>
       <div className="flex flex-col md:flex-row justify-center gap-6">
-        <div className="bg-white/5 border border-white/5 px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
+        <div className="bg-white border border-slate-200 shadow-sm px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
           <Award className="w-6 h-6 text-brand-primary" />
           <div className="text-left">
-            <div className="font-bold text-white">Award 1</div>
-            <div className="text-white/40 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
+            <div className="font-bold text-slate-900">Award 1</div>
+            <div className="text-slate-400 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
           </div>
         </div>
-        <div className="bg-white/5 border border-white/5 px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
+        <div className="bg-white border border-slate-200 shadow-sm px-8 py-5 rounded-xl flex items-center gap-4 hover:border-brand-primary/30 transition-colors">
           <Award className="w-6 h-6 text-brand-primary" />
           <div className="text-left">
-            <div className="font-bold text-white">Award 2</div>
-            <div className="text-white/40 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
+            <div className="font-bold text-slate-900">Award 2</div>
+            <div className="text-slate-400 text-[10px] font-mono uppercase tracking-widest mt-0.5">Certificate</div>
           </div>
         </div>
       </div>
@@ -467,7 +466,7 @@ const PresentationView = () => {
   const CurrentSlideComponent = slides[currentSlide];
 
   return (
-    <div className="min-h-screen w-screen md:h-screen overflow-x-hidden md:overflow-hidden relative bg-brand-dark selection:bg-brand-primary selection:text-brand-dark pt-10 pb-24 md:p-0">
+    <div className="min-h-screen w-screen md:h-screen overflow-x-hidden md:overflow-hidden relative bg-[#F8FAFC] selection:bg-brand-primary/20 selection:text-brand-primary pt-10 pb-24 md:p-0">
       {/* Main Slide Content - Scrollable on Mobile, Fixed on Desktop */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -488,14 +487,14 @@ const PresentationView = () => {
       </AnimatePresence>
 
       {/* Presentation Progress Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/5">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-50 bg-white/90 backdrop-blur-md px-5 py-3 rounded-full border border-slate-200 shadow-lg">
         {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}
             className={`transition-all duration-500 rounded-full ${currentSlide === idx
-              ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(0,255,148,0.6)]'
-              : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+              ? 'w-10 h-2 bg-brand-primary shadow-[0_0_12px_rgba(37,99,235,0.5)]'
+              : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
               }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
@@ -507,7 +506,7 @@ const PresentationView = () => {
 
 export default function App() {
   const isMobile = useIsMobile();
-  const [unlocked, setUnlocked] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
 
   // Block mobile users immediately
   if (isMobile) return <MobileBlock />;
@@ -525,27 +524,47 @@ export default function App() {
     return () => document.removeEventListener("click", enterFullscreen);
   }, []);
 
-  const handleUnlock = () => {
-    setUnlocked(true);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [videoStarted, setVideoStarted] = useState(false);
+
+  const startVideo = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.play();
+      setVideoStarted(true);
+    }
   };
 
-  return (
-    <div className="bg-black min-h-screen">
-      {/* Full-screen curtain gate — renders on top until opened */}
-      {!unlocked && <LogoGate onUnlock={handleUnlock} />}
-
-      {/* Main site — Fades into an infinite looping presentation after curtains open */}
-      <AnimatePresence>
-        {unlocked && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+  if (!videoEnded) {
+    return (
+      <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+        <video
+          ref={videoRef}
+          preload="auto"
+          playsInline
+          onEnded={() => setVideoEnded(true)}
+          className="w-full h-full object-cover"
+        >
+          <source src="https://res.cloudinary.com/dzazecta2/video/upload/v1774332141/Video_Project_1_1_micrpk.mp4" type="video/mp4" />
+        </video>
+        {!videoStarted && (
+          <div
+            className="absolute inset-0 flex items-center justify-center cursor-pointer bg-black/40"
+            onClick={startVideo}
           >
-            <PresentationView />
-          </motion.div>
+            <p className="text-white/80 text-lg md:text-2xl font-bold uppercase tracking-[0.3em] hover:text-white transition-colors">Click to Inaugurate</p>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-[#F8FAFC] min-h-screen">
+      <PresentationView />
     </div>
   );
 }
