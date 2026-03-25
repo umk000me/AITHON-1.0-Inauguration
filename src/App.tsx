@@ -196,7 +196,7 @@ const FeatureCard = ({ icon: Icon, title, description, index }: any) => (
 );
 
 const About = () => (
-  <section id="about" className="py-12 px-6 max-w-7xl mx-auto w-full">
+  <section id="about" className="px-6 max-w-7xl mx-auto w-full">
     <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
       <div>
         <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight text-slate-900">
@@ -334,7 +334,7 @@ const InaugurationPanel = () => (
 );
 
 const Prizes = () => (
-  <section id="prizes" className="py-16 px-6 bg-slate-50/80 w-full rounded-3xl">
+  <section id="prizes" className="px-6 bg-slate-50/80 w-full rounded-3xl">
     <div className="max-w-5xl mx-auto text-center">
       <h2 className="text-3xl md:text-5xl font-black mb-12 uppercase tracking-tight text-slate-900">
         Event <span className="text-brand-primary">Prizes</span>
@@ -466,8 +466,8 @@ const PresentationView = () => {
   const CurrentSlideComponent = slides[currentSlide];
 
   return (
-    <div className="min-h-screen w-screen md:h-screen overflow-x-hidden md:overflow-hidden relative bg-[#F8FAFC] selection:bg-brand-primary/20 selection:text-brand-primary pt-10 pb-24 md:p-0">
-      {/* Main Slide Content - Scrollable on Mobile, Fixed on Desktop */}
+    <div className="h-screen w-screen overflow-hidden relative bg-[#F8FAFC] selection:bg-brand-primary/20 selection:text-brand-primary">
+      {/* Main Slide Content */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -475,11 +475,10 @@ const PresentationView = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="md:absolute inset-0 z-10 flex flex-col items-center justify-start md:justify-center px-4 md:px-12 w-full"
+          className="absolute inset-0 z-10 flex items-center justify-center overflow-hidden"
         >
-          {/* Strict scaling for Desktop / Smooth scrolling for Mobile */}
-          <div className="w-full md:h-full max-h-none md:max-h-[100vh] flex justify-center md:items-center">
-            <div className="transform scale-100 md:scale-95 xl:scale-100 origin-center w-full max-w-7xl flex flex-col items-center">
+          <div className="w-full h-full flex justify-center items-center px-4 md:px-12 overflow-auto">
+            <div className="transform scale-[0.85] xl:scale-90 origin-center w-full max-w-7xl flex flex-col items-center">
               <CurrentSlideComponent />
             </div>
           </div>
@@ -504,6 +503,10 @@ const PresentationView = () => {
   );
 };
 
+// ─── Unique channel for cross-network signaling via ntfy.sh ───────────────────
+// Both PC and mobile use this same channel. Change it if you want a new session.
+const NTFY_CHANNEL = "aithon1-inaugurate-2026";
+
 export default function App() {
   const isMobile = useIsMobile();
   const [videoEnded, setVideoEnded] = useState(false);
@@ -511,51 +514,93 @@ export default function App() {
   // Block mobile users immediately
   if (isMobile) return <MobileBlock />;
 
-  // Auto-Fullscreen on first interaction
-  useEffect(() => {
-    const enterFullscreen = () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-          console.warn("Could not auto-enable fullscreen:", err);
-        });
-      }
-    };
-    document.addEventListener("click", enterFullscreen, { once: true });
-    return () => document.removeEventListener("click", enterFullscreen);
-  }, []);
-
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [videoStarted, setVideoStarted] = useState(false);
+  const [armed, setArmed] = useState(false);
 
-  const startVideo = () => {
+  // ── Arm: one click on PC to unlock browser autoplay policy ──
+  const armPage = React.useCallback(() => {
+    if (armed) return;
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+    // Unlock audio context
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    ctx.resume().then(() => ctx.close());
+    // Prime the video so browser trusts play()
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().then(() => {
+        videoRef.current!.pause();
+        videoRef.current!.currentTime = 0;
+        videoRef.current!.muted = false;
+      }).catch(() => {});
+    }
+    setArmed(true);
+  }, [armed]);
+
+  // ── Play video with its own sound, fullscreen ──
+  const startVideo = React.useCallback(() => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
     if (videoRef.current) {
       videoRef.current.muted = false;
-      videoRef.current.play();
-      setVideoStarted(true);
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
     }
-  };
+    setVideoStarted(true);
+  }, []);
+
+  // ── Listen for remote signal via ntfy.sh (works from ANY network) ──
+  useEffect(() => {
+    const es = new EventSource(`https://ntfy.sh/${NTFY_CHANNEL}/sse`);
+    es.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.message === "inaugurate") {
+          startVideo();
+        }
+      } catch { /* ignore non-JSON keepalives */ }
+    };
+    return () => es.close();
+  }, [startVideo]);
 
   if (!videoEnded) {
     return (
-      <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+      <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#000', overflow: 'hidden', width: '100%', height: '100%' }}>
         <video
           ref={videoRef}
           preload="auto"
           playsInline
           onEnded={() => setVideoEnded(true)}
-          className="w-full h-full object-cover"
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         >
           <source src="https://res.cloudinary.com/dzazecta2/video/upload/v1774377107/Video_Project_2_2_wlvpwd.mp4" type="video/mp4" />
         </video>
-        {!videoStarted && (
+
+        {!videoStarted && !armed && (
           <div
-            className="absolute inset-0 flex items-center justify-center cursor-pointer bg-black/40"
+            style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'rgba(0,0,0,0.6)', zIndex: 10 }}
+            onClick={armPage}
+          >
+            <p className="text-white/80 text-lg md:text-2xl font-bold uppercase tracking-[0.3em] hover:text-white transition-colors">
+              Click to Prepare
+            </p>
+          </div>
+        )}
+
+        {!videoStarted && armed && (
+          <div
+            style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.7)', zIndex: 10, cursor: 'pointer' }}
             onClick={startVideo}
           >
-            <p className="text-white/80 text-lg md:text-2xl font-bold uppercase tracking-[0.3em] hover:text-white transition-colors">Click to Inaugurate</p>
+            <div className="w-16 h-16 rounded-full border-4 border-green-400/50 flex items-center justify-center mb-6 animate-pulse">
+              <div className="w-4 h-4 rounded-full bg-green-400 shadow-[0_0_20px_rgba(74,222,128,0.6)]" />
+            </div>
+            <p className="text-green-400/90 text-lg md:text-2xl font-bold uppercase tracking-[0.3em]">
+              Ready
+            </p>
           </div>
         )}
       </div>
@@ -563,7 +608,7 @@ export default function App() {
   }
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen">
+    <div className="bg-[#F8FAFC] h-screen w-screen overflow-hidden">
       <PresentationView />
     </div>
   );
